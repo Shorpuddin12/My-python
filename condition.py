@@ -1,0 +1,16 @@
+num1 = 20
+num2 = 10
+num3 = 40
+num4 = 12
+num5 = 47
+num6 = 27
+
+
+mmax_valu = (
+    num1 if (num1>num2 and num1>num3 and num1>num4 and num1>num5 and num1 > num6)
+    else (num2 if (num2 > num3 and num2>num4 and num2 > num5 and num2 > num6)
+    else (num3 if (num3 >num4 and num3>num5 and num3 >num6)
+    else (num4 if ( num4>num5 and num4>num6)
+    else (num5 if num5>num6 else num6 ))))
+)
+print("The Max valu is ",mmax_valu)
