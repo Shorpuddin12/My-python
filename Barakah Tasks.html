@@ -1,0 +1,406 @@
+<!-- index.html - ওয়েব ভার্সন -->
+
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Barakah Tasks - ওয়েব অ্যাপ</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Arial', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #0a2f1f, #1a4d3a);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .app-container {
+            width: 100%;
+            max-width: 450px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .arabic {
+            font-size: 24px;
+            color: #ffd700;
+            margin-bottom: 10px;
+            font-family: 'Traditional Arabic', serif;
+        }
+        
+        h1 {
+            color: #ffd700;
+            font-size: 28px;
+            margin-bottom: 5px;
+        }
+        
+        .subtitle {
+            color: white;
+            font-size: 16px;
+            opacity: 0.9;
+        }
+        
+        .quote-box {
+            background: rgba(255, 215, 0, 0.1);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-left: 3px solid #ffd700;
+        }
+        
+        .quote {
+            color: #ffd700;
+            font-size: 14px;
+            line-height: 1.5;
+            text-align: center;
+        }
+        
+        .input-section {
+            margin-bottom: 20px;
+        }
+        
+        .task-input {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.9);
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+        
+        .category-select {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 8px;
+            background: #1a4d3a;
+            color: white;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+        
+        .add-btn {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            background: #ffd700;
+            color: #0a2f1f;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        
+        .add-btn:hover {
+            transform: translateY(-2px);
+            background: #ffed4a;
+        }
+        
+        .tasks-header {
+            display: flex;
+            justify-content: space-between;
+            color: white;
+            margin-bottom: 15px;
+            padding: 0 5px;
+        }
+        
+        .task-item {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border: 1px solid rgba(255, 215, 0, 0.2);
+        }
+        
+        .task-checkbox {
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+        }
+        
+        .task-content {
+            flex: 1;
+        }
+        
+        .task-text {
+            color: white;
+            font-size: 16px;
+            margin-bottom: 4px;
+        }
+        
+        .task-completed .task-text {
+            text-decoration: line-through;
+            opacity: 0.6;
+            color: #90EE90;
+        }
+        
+        .task-category {
+            font-size: 12px;
+            color: #ffd700;
+            background: rgba(255, 215, 0, 0.1);
+            padding: 2px 8px;
+            border-radius: 12px;
+            display: inline-block;
+        }
+        
+        .delete-btn {
+            background: none;
+            border: none;
+            color: #ff6b6b;
+            font-size: 20px;
+            cursor: pointer;
+            padding: 0 5px;
+        }
+        
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-value {
+            color: #ffd700;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        
+        .stat-label {
+            color: white;
+            font-size: 12px;
+            opacity: 0.8;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container" id="app">
+        <div class="header">
+            <div class="arabic">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>
+            <h1>✨ Barakah Tasks ✨</h1>
+            <div class="subtitle">বরকতময় টাস্ক ম্যানেজার</div>
+        </div>
+        
+        <div class="quote-box" id="quoteBox">
+            <div class="quote" id="quote">নিশ্চয়ই আল্লাহ তোমাদের কাজ দেখেন।</div>
+        </div>
+        
+        <div class="input-section">
+            <input type="text" class="task-input" id="taskInput" placeholder="নতুন টাস্ক লিখুন...">
+            <select class="category-select" id="categorySelect">
+                <option value="দৈনন্দিন">দৈনন্দিন</option>
+                <option value="নামাজ">নামাজ</option>
+                <option value="কুরআন">কুরআন</option>
+                <option value="ইবাদত">ইবাদত</option>
+                <option value="পড়াশোনা">পড়াশোনা</option>
+            </select>
+            <button class="add-btn" onclick="addTask()">➕ টাস্ক যোগ করুন</button>
+        </div>
+        
+        <div class="tasks-header">
+            <span>📋 আমার টাস্ক সমূহ</span>
+            <span id="taskCount">০ টি</span>
+        </div>
+        
+        <div id="tasksList"></div>
+        
+        <div class="stats">
+            <div class="stat-item">
+                <div class="stat-value" id="totalTasks">0</div>
+                <div class="stat-label">মোট টাস্ক</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" id="completedTasks">0</div>
+                <div class="stat-label">সম্পন্ন</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" id="pendingTasks">0</div>
+                <div class="stat-label">বাকি</div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            🕌 Barakah Tasks - আপনার দৈনন্দিন কাজ ও ইবাদতের সঙ্গী
+        </div>
+    </div>
+
+    <script>
+        let tasks = [];
+        const quotes = [
+            "নিশ্চয়ই আল্লাহ তোমাদের কাজ দেখেন।",
+            "প্রতিটি কাজ নিয়্যতের উপর নির্ভরশীল।",
+            "আজকের কাজ আগামীকালের উপর ছেড়ে দিও না।",
+            "সময় সুযোগের মত মূল্যবান।",
+            "পরিশ্রমই সফলতার চাবিকাঠি।",
+            "যে ব্যক্তি মানুষের প্রতি কৃতজ্ঞ নয়, সে আল্লাহর প্রতিও কৃতজ্ঞ নয়।"
+        ];
+        
+        // লোকাল স্টোরেজ থেকে টাস্ক লোড
+        function loadTasks() {
+            const saved = localStorage.getItem('barakahTasks');
+            if (saved) {
+                tasks = JSON.parse(saved);
+            }
+            renderTasks();
+            updateStats();
+        }
+        
+        // টাস্ক সেভ
+        function saveTasks() {
+            localStorage.setItem('barakahTasks', JSON.stringify(tasks));
+        }
+        
+        // নতুন টাস্ক যোগ
+        function addTask() {
+            const input = document.getElementById('taskInput');
+            const category = document.getElementById('categorySelect').value;
+            const text = input.value.trim();
+            
+            if (text) {
+                const task = {
+                    id: Date.now(),
+                    text: text,
+                    category: category,
+                    completed: false,
+                    created: new Date().toLocaleString('bn-BD')
+                };
+                tasks.push(task);
+                saveTasks();
+                input.value = '';
+                renderTasks();
+                updateStats();
+                showNotification('✅ টাস্ক যোগ করা হয়েছে!');
+            }
+        }
+        
+        // টাস্ক টগল
+        function toggleTask(id) {
+            const task = tasks.find(t => t.id === id);
+            if (task) {
+                task.completed = !task.completed;
+                saveTasks();
+                renderTasks();
+                updateStats();
+                if (task.completed) {
+                    showNotification('🌸 মাশাআল্লাহ! টাস্ক সম্পন্ন হয়েছে!');
+                }
+            }
+        }
+        
+        // টাস্ক ডিলিট
+        function deleteTask(id) {
+            if (confirm('আপনি কি এই টাস্ক মুছতে চান?')) {
+                tasks = tasks.filter(t => t.id !== id);
+                saveTasks();
+                renderTasks();
+                updateStats();
+                showNotification('🗑️ টাস্ক মুছে ফেলা হয়েছে');
+            }
+        }
+        
+        // টাস্ক রেন্ডার
+        function renderTasks() {
+            const list = document.getElementById('tasksList');
+            if (tasks.length === 0) {
+                list.innerHTML = `
+                    <div style="text-align: center; padding: 40px; color: rgba(255,255,255,0.5);">
+                        🌸 কোনো টাস্ক নেই<br>
+                        নতুন টাস্ক যোগ করুন
+                    </div>
+                `;
+                return;
+            }
+            
+            let html = '';
+            tasks.forEach(task => {
+                html += `
+                    <div class="task-item ${task.completed ? 'task-completed' : ''}">
+                        <input type="checkbox" class="task-checkbox" 
+                               ${task.completed ? 'checked' : ''} 
+                               onchange="toggleTask(${task.id})">
+                        <div class="task-content">
+                            <div class="task-text">${task.text}</div>
+                            <span class="task-category">📌 ${task.category}</span>
+                        </div>
+                        <button class="delete-btn" onclick="deleteTask(${task.id})">🗑️</button>
+                    </div>
+                `;
+            });
+            list.innerHTML = html;
+        }
+        
+        // স্ট্যাটস আপডেট
+        function updateStats() {
+            const total = tasks.length;
+            const completed = tasks.filter(t => t.completed).length;
+            const pending = total - completed;
+            
+            document.getElementById('totalTasks').textContent = total;
+            document.getElementById('completedTasks').textContent = completed;
+            document.getElementById('pendingTasks').textContent = pending;
+            document.getElementById('taskCount').textContent = total + ' টি';
+        }
+        
+        // নোটিফিকেশন দেখান
+        function showNotification(message) {
+            const quoteBox = document.getElementById('quoteBox');
+            const originalQuote = document.getElementById('quote').textContent;
+            
+            document.getElementById('quote').textContent = message;
+            quoteBox.style.backgroundColor = 'rgba(255, 215, 0, 0.2)';
+            
+            setTimeout(() => {
+                document.getElementById('quote').textContent = originalQuote;
+                quoteBox.style.backgroundColor = 'rgba(255, 215, 0, 0.1)';
+            }, 2000);
+        }
+        
+        // কোট পরিবর্তন
+        function changeQuote() {
+            const randomIndex = Math.floor(Math.random() * quotes.length);
+            document.getElementById('quote').textContent = quotes[randomIndex];
+        }
+        
+        // প্রতি ১০ সেকেন্ডে কোট পরিবর্তন
+        setInterval(changeQuote, 10000);
+        
+        // লোড
+        loadTasks();
+    </script>
+</body>
+</html>
